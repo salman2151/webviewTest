@@ -2,12 +2,16 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'org.greenrobot.greendao'
+   // id 'io.fabric'
+   // id 'com.google.firebase.firebase-perf'
+    id 'kotlin-android-extensions'
+    id 'kotlinx-serialization'
 }
 
 android {
     compileSdkVersion 29
     buildToolsVersion '29.0.3'
-
     defaultConfig {
         applicationId "com.example.webviewtest"
         minSdkVersion 21
@@ -18,7 +22,6 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -31,6 +34,93 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    flavorDimensions "version"
+//    productFlavors {
+//        dev {
+//            applicationId rootProject.ext.APPLICATION_ID_UAT
+//            versionCode rootProject.ext.codeDemo
+//            versionName rootProject.ext.nameDemo
+//            buildConfigField("String", "STORYLY_KEY", rootProject.ext.STORYLY_KEY_UAT)
+//            buildConfigField("String", "BUILD_NUMBER", rootProject.ext.numberDemo)
+//            buildConfigField "String", 'BASE_URL', '"https://eps-net-uat.sadadbh.com/api/v2/mob-cus-sdd/"'
+//            buildConfigField "boolean", 'API_LOGS', 'true'
+//            buildConfigField "String", "DYNAMIC_LINK_DOMAIN", '"sadadcompany1.page.link"'
+//            resValue "string", "DYNAMIC_LINK_DOMAIN", '"sadadcompany1.page.link"'
+//            buildConfigField "String", "DYNAMIC_LINK_IOS_PACKAGE", '"com.sadad.test"'
+//            resValue "bool", "crash_enabled", "true"
+//            dimension "version"
+////            applicationIdSuffix ".test"
+//
+//            buildConfigField("String", "SUMSUB_API_URL", "\"https://test-api.sumsub.com/\"")
+//
+//        }
+//        prod {
+//            applicationId rootProject.ext.APPLICATION_ID_LIVE
+//            versionCode rootProject.ext.codeLive
+//            versionName rootProject.ext.nameLive
+//            buildConfigField("String", "STORYLY_KEY", rootProject.ext.STORYLY_KEY_LIVE)
+//            buildConfigField("String", "BUILD_NUMBER", rootProject.ext.numberLive)
+//            buildConfigField "String", 'BASE_URL', '"https://eps.sadadbh.com/api/v2/mob-cus-sdd/"'
+//            buildConfigField "boolean", 'API_LOGS', 'false'
+//            buildConfigField "String", "DYNAMIC_LINK_DOMAIN", '"sadad.page.link"'
+//            resValue "string", "DYNAMIC_LINK_DOMAIN", '"sadad.page.link"'
+//            buildConfigField "String", "DYNAMIC_LINK_IOS_PACKAGE", '"com.sadadcompany.sadad"'
+//            resValue "bool", "crash_enabled", "true"
+//            dimension "version"
+//
+//            buildConfigField("String", "SUMSUB_API_URL", "\"https://api.sumsub.com/\"")
+//
+//        }
+//        stag {
+//
+//            applicationId rootProject.ext.APPLICATION_ID_STAG
+//            versionCode rootProject.ext.codeStag
+//            versionName rootProject.ext.nameStag
+//            buildConfigField("String", "STORYLY_KEY", rootProject.ext.STORYLY_KEY_STAG)
+//            buildConfigField("String", "BUILD_NUMBER", rootProject.ext.numberStag)
+//            buildConfigField "String", 'BASE_URL', '"https://eps-pre.sadadbh.com/api/v2/mob-cus-sdd/"'
+//            buildConfigField "boolean", 'API_LOGS', 'true'
+//            buildConfigField "String", "DYNAMIC_LINK_DOMAIN", '"sadad.page.link"'
+//            resValue "string", "DYNAMIC_LINK_DOMAIN", '"sadad.page.link"'
+//            buildConfigField "String", "DYNAMIC_LINK_IOS_PACKAGE", '"com.sadadcompany.sadad"'
+//            resValue "bool", "crash_enabled", "true"
+//            dimension "version"
+//            manifestPlaceholders = [
+//                    app_name: "SADAD Stag"
+//            ]
+//
+//            buildConfigField("String", "SUMSUB_API_URL", "\"https://api.sumsub.com/\"")
+//
+//        }
+//    }
+    dexOptions {
+        javaMaxHeapSize = "4g"
+        preDexLibraries = false
+    }
+    dataBinding {
+        enabled = true
+    }
+    greendao {
+        targetGenDir 'src/main/java'
+        schemaVersion 3
+    }
+}
+kapt {
+    correctErrorTypes = true
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir "${buildDir}/generated/source/kapt"
+        }
     }
 }
 
@@ -95,7 +185,6 @@ dependencies {
     implementation 'android.arch.lifecycle:runtime:1.1.1'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
-
 
 
     implementation 'com.google.android.gms:play-services-analytics:17.0.0'
